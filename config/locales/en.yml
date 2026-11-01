@@ -1,0 +1,163 @@
+en:
+  nav:
+    search: Search inventories and items…
+    theme: Switch theme
+    my_page: My page
+    admin: Admin
+    sign_in: Sign in
+    sign_out: Sign out
+  auth:
+    with: Continue with %{provider}
+    or: or with email
+    sign_up: Sign up
+  flash:
+    forbidden: You don't have access to do that.
+    created: Created.
+    saved: Saved.
+    deleted: Deleted.
+    stale: Somebody else changed this while you were editing. Reload the page to see their changes, then try again.
+  devise:
+    failure:
+      blocked: Your account is blocked.
+  actions:
+    new: New
+    create: Create
+    save: Save
+    delete: Delete
+    back: Back
+    confirm: Are you sure? This can't be undone.
+  table:
+    filter: Filter…
+    empty: Nothing here yet.
+  home:
+    latest: Latest inventories
+    popular: Top 5 popular inventories
+    tags: Tags
+  search:
+    results_for: Search results for
+    by_tag: Inventories tagged
+    inventories: Inventories
+    items: Items
+    inventory: Inventory
+  users:
+    owned: My inventories
+    writable: Inventories I can edit
+  inventory:
+    new: New inventory
+    title: Title
+    description: Description
+    category: Category
+    creator: Creator
+    tags: Tags
+    image: Image
+    upload: Upload image
+    remove_image: Remove image
+    markdown_hint: Markdown is supported.
+    delete: Delete inventory
+  tabs:
+    items: Items
+    chat: Chat
+    settings: Settings
+    custom_id: Custom ID
+    fields: Fields
+    access: Access
+    stats: Stats
+    export: Export CSV
+  autosave:
+    saved: All changes saved
+    unsaved: Unsaved changes
+    saving: Saving…
+    conflict: Conflict, reload the page
+    error: Not saved
+  custom_id:
+    intro: Set up item numbers in your own format. Add elements, edit them, drag to reorder, or drag an element out of the form to delete it.
+    example: Example
+    add: Add element
+    drag: Drag to reorder, drag out to delete
+    help_title: Format
+    help: "<b>Numbers</b>: <code>D</code> decimal, <code>X</code> hex. A number after it adds leading zeros: <code>D4</code> → 0042, <code>X5</code> → 0A3F2. Text after the format is kept as is: <code>D3_</code> → 042_.<br><b>Date</b>: <code>yyyy</code> <code>yy</code> <code>MM</code> <code>dd</code> <code>ddd</code> (weekday) <code>HH</code> <code>mm</code> <code>ss</code>, other characters are kept.<br><b>Fixed</b>: any text, emoji too."
+    types:
+      fixed: Fixed text
+      random20: 20-bit random
+      random32: 32-bit random
+      random6: 6-digit random
+      random9: 9-digit random
+      guid: GUID
+      datetime: Date/time
+      sequence: Sequence
+    hints:
+      fixed: A piece of unchanging text. You can use Unicode emoji.
+      random20: A random value. E.g. format it as six-digit decimal (D6) or 5-digit hex (X5).
+      random32: A random value. E.g. format it as 8-digit hex (X8).
+      random6: A random 6-digit number (D6 by default).
+      random9: A random 9-digit number (D9 by default).
+      guid: A globally unique identifier, no format options.
+      datetime: Item creation date and time. E.g. use an abbreviated day of the week (ddd).
+      sequence: A sequential index. Format with leading zeros (D4) or without them (D).
+  fields:
+    intro: Fields every item of this inventory has. Up to 3 fields of each type. Drag to reorder.
+    add: Add field
+    name: Name
+    description: Hint for the form
+    show_in_table: In table
+    limit: All 3 fields of this type are already used.
+    types:
+      string: Single-line text
+      text: Multi-line text
+      int: Number
+      link: Document/image link
+      bool: Checkbox
+  items:
+    add: Add item
+    created_by: Created by
+    created_at: Created at
+    id_auto: Generated automatically
+    id_format: Format example
+    stale: This item was changed by someone else while you were editing. Your input is shown below so you can copy it.
+    reload: Reload the latest version
+  chat:
+    placeholder: Write a post (Markdown supported)…
+    post: Post
+    to_post: to join the discussion.
+  access:
+    public: Public (every signed-in user can add and edit items)
+    public_hint: For a private inventory, only users from the list below can edit items.
+    add_placeholder: Type a name or email…
+    add: Add
+    remove: Remove selected
+    name: Name
+    email: Email
+    sort_hint: Click a column header to sort by name or by email.
+  stats:
+    items_count: Items
+    type: Type
+    value: Summary
+    min: min
+    max: max
+    avg: avg
+    checked: Checked
+    most_frequent: Most frequent
+  admin:
+    title: Users
+    block: Block
+    unblock: Unblock
+    make_admin: Make admin
+    remove_admin: Remove admin
+    role: Role
+    status: Status
+    admin: Admin
+    user: User
+    blocked: Blocked
+    active: Active
+  activerecord:
+    attributes:
+      item:
+        custom_id: ID
+      user:
+        name: Name
+    errors:
+      models:
+        inventory:
+          attributes:
+            base:
+              field_name_missing: Every field needs a name
