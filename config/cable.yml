@@ -1,0 +1,10 @@
+development:
+  adapter: async
+
+test:
+  adapter: test
+
+# Render's free plan runs a single process, so the in-process adapter is enough.
+# With several servers we'd need a shared one (Solid Cable or Redis).
+production:
+  adapter: async
