@@ -1,0 +1,22 @@
+class User < ApplicationRecord
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable,
+         :omniauthable, omniauth_providers: %i[google_oauth2 github]
+
+  validates :name, presence: true
+
+  scope :matching, ->(query) {
+    pattern = "#{sanitize_sql_like(query.to_s.downcase)}%"
+    where("LOWER(name) LIKE :p OR LOWER(email) LIKE :p", p: pattern)
+  }
+
+  # Finds the user by the social account, or links it to an existing user with the same email.
+  def self.from_omniauth(auth)
+    user = find_by(provider: auth.provider, uid: auth.uid) || find_or_initialize_by(email: auth.info.email)
+    user.provider = auth.provider
+    user.uid = auth.uid
+    user.name = auth.info.name.presence || auth.info.nickname || auth.info.email if user.name.blank?
+    user.password = Devise.friendly_token[0, 20] if user.new_record?
+    user.save!
+    user
+  end
+end

@@ -1,0 +1,10 @@
+<div class="d-grid gap-2 mb-3">
+  <%# OmniAuth 2 requires POST; turbo is off because the provider page is a full redirect. %>
+  <%= button_to user_google_oauth2_omniauth_authorize_path, class: "btn btn-outline-secondary w-100", data: { turbo: false } do %>
+    <i class="bi bi-google"></i> <%= t("auth.with", provider: "Google") %>
+  <% end %>
+  <%= button_to user_github_omniauth_authorize_path, class: "btn btn-outline-secondary w-100", data: { turbo: false } do %>
+    <i class="bi bi-github"></i> <%= t("auth.with", provider: "GitHub") %>
+  <% end %>
+</div>
+<p class="text-center text-body-secondary small"><%= t("auth.or") %></p>
