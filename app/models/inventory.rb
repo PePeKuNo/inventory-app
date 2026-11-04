@@ -11,6 +11,7 @@ class Inventory < ApplicationRecord
   has_many :tags, through: :taggings
 
   validates :title, presence: true
+  validate :custom_id_format_is_valid
 
   pg_search_scope :search,
     against: { title: "A", description: "B" },
@@ -42,4 +43,32 @@ class Inventory < ApplicationRecord
     names = value.to_s.split(",").map { |name| name.strip.downcase }.compact_blank.uniq
     self.tags = names.map { |name| Tag.find_or_create_by!(name:) }
   end
+
+  # Keeps only known keys, so the stored format is always a clean list.
+  def custom_id_format=(elements)
+    list = elements.respond_to?(:values) ? elements.values : Array(elements)
+    super(list.filter_map do |element|
+      next unless element.respond_to?(:to_h)
+
+      element.to_h.stringify_keys.slice("type", "format")
+    end)
+  end
+
+  def generate_custom_id(sequence)
+    return sequence.to_s if custom_id_format.empty?
+
+    CustomId.generate(custom_id_format, sequence:)
+  end
+
+  def custom_id_regexp
+    CustomId.regexp(custom_id_format) if custom_id_format.any?
+  end
+
+  private
+    def custom_id_format_is_valid
+      if custom_id_format.size > CustomId::MAX_ELEMENTS ||
+          custom_id_format.any? { |element| CustomId::TYPES.exclude?(element["type"]) }
+        errors.add(:custom_id_format, :invalid)
+      end
+    end
 end

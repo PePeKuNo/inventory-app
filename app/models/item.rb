@@ -5,6 +5,8 @@ class Item < ApplicationRecord
   belongs_to :user
   has_many :likes, dependent: :destroy
 
+  before_validation :assign_custom_id, on: :create
+
   validates :custom_id, presence: true, uniqueness: { scope: :inventory_id }
 
   pg_search_scope :search,
@@ -14,4 +16,12 @@ class Item < ApplicationRecord
   def liked_by?(user)
     user.present? && likes.exists?(user_id: user.id)
   end
+
+  private
+    # A new item gets the next sequence number and an ID built from the inventory's format,
+    # unless the user typed their own ID.
+    def assign_custom_id
+      self.sequence_number = inventory.items.maximum(:sequence_number).to_i + 1
+      self.custom_id = inventory.generate_custom_id(sequence_number) if custom_id.blank?
+    end
 end
