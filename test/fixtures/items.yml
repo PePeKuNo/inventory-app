@@ -1,0 +1,7 @@
+dell:
+  inventory: laptops
+  user: owner
+  custom_id: PART-0001
+  sequence_number: 1
+  custom_string1: Dell
+  custom_int1: 1000

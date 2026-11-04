@@ -1,0 +1,10 @@
+laptops:
+  title: Laptops
+  user: owner
+  category: equipment
+  custom_id_format: [{ "type": "fixed", "format": "PART-" }, { "type": "sequence", "format": "D4" }]
+  custom_string1_state: true
+  custom_string1_name: Model
+  custom_string1_show_in_table: true
+  custom_int1_state: true
+  custom_int1_name: Price
