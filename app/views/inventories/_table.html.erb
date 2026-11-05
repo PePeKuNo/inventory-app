@@ -1,0 +1,47 @@
+<%# locals: (inventories:, filter: false, form: nil, toolbar: nil) %>
+<%# When `form` is given, rows get checkboxes that belong to that toolbar form. %>
+<div data-controller="table">
+  <% if filter %>
+    <input type="search" class="form-control form-control-sm mb-2" style="max-width: 18rem"
+           placeholder="<%= t("table.filter") %>" data-table-target="filter" data-action="input->table#filter">
+  <% end %>
+  <%= toolbar %>
+  <div class="table-responsive">
+    <table class="table table-hover align-middle">
+      <thead>
+        <tr>
+          <% if form %>
+            <th class="table-select"><input type="checkbox" class="form-check-input" data-table-target="selectAll" data-action="table#toggleAll"></th>
+          <% end %>
+          <th data-action="click->table#sort"><%= t("inventory.title") %></th>
+          <th><%= t("inventory.description") %></th>
+          <th data-action="click->table#sort"><%= t("inventory.category") %></th>
+          <th data-action="click->table#sort"><%= t("inventory.creator") %></th>
+        </tr>
+      </thead>
+      <tbody data-table-target="body">
+        <% inventories.each do |inventory| %>
+          <tr data-href="<%= inventory_path(inventory) %>" data-action="click->table#open">
+            <% if form %>
+              <td><input type="checkbox" class="form-check-input" name="ids[]" value="<%= inventory.id %>" form="<%= form %>"
+                         data-table-target="checkbox" data-action="table#updateActions"></td>
+            <% end %>
+            <td class="fw-semibold"><%= inventory.title %></td>
+            <td class="text-body-secondary">
+              <% if inventory.image_url.present? %>
+                <%= image_tag inventory.image_url, height: 40, class: "rounded", alt: "" %>
+              <% else %>
+                <%= inventory.description.to_s.truncate(80) %>
+              <% end %>
+            </td>
+            <td><%= inventory.category&.name %></td>
+            <td><%= inventory.user.name %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <% if inventories.empty? %>
+    <p class="text-body-secondary"><%= t("table.empty") %></p>
+  <% end %>
+</div>

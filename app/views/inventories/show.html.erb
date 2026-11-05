@@ -1,0 +1,18 @@
+<% content_for :title, @inventory.title %>
+
+<div class="d-flex flex-wrap align-items-center gap-3 mb-1">
+  <h1 class="h2 mb-0"><%= @inventory.title %></h1>
+</div>
+<p class="text-body-secondary small">
+  <%= @inventory.category&.name %> · <%= @inventory.user.name %>
+</p>
+
+<ul class="nav nav-tabs mb-3">
+  <% @tabs.each do |tab| %>
+    <li class="nav-item">
+      <%= link_to t("tabs.#{tab}"), inventory_path(@inventory, tab:), class: "nav-link #{"active" if tab == @tab}" %>
+    </li>
+  <% end %>
+</ul>
+
+<%= render "inventories/tabs/#{@tab}", inventory: @inventory %>

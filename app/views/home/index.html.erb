@@ -1,2 +1,9 @@
-<h1 class="h3">Inventory</h1>
-<p class="text-body-secondary">A place to track equipment, books and documents.</p>
+<div class="row g-4">
+  <div class="col-lg-8">
+    <h2 class="h4"><%= t("home.latest") %></h2>
+    <%= render "inventories/table", inventories: @latest %>
+
+    <h2 class="h4 mt-4"><%= t("home.popular") %></h2>
+    <%= render "inventories/table", inventories: @popular %>
+  </div>
+</div>
