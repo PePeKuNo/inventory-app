@@ -15,6 +15,21 @@
     <%= f.collection_select :category_id, Category.order(:name), :id, :name, { include_blank: true }, class: "form-select" %>
   </div>
 
+  <div class="mb-3" data-controller="image-upload"
+       data-image-upload-cloud-name-value="<%= ENV["CLOUDINARY_CLOUD_NAME"] %>"
+       data-image-upload-preset-value="<%= ENV["CLOUDINARY_UPLOAD_PRESET"] %>">
+    <label class="form-label d-block"><%= t("inventory.image") %></label>
+    <%= tag.img src: inventory.image_url, class: "img-thumbnail mb-2", style: "max-height: 160px",
+                hidden: inventory.image_url.blank?, alt: "", data: { image_upload_target: "preview" } %>
+    <%= f.hidden_field :image_url, data: { image_upload_target: "input" } %>
+    <div>
+      <% if ENV["CLOUDINARY_CLOUD_NAME"].present? %>
+        <button type="button" class="btn btn-outline-secondary btn-sm" data-action="image-upload#open"><i class="bi bi-cloud-upload"></i> <%= t("inventory.upload") %></button>
+      <% end %>
+      <button type="button" class="btn btn-link btn-sm text-danger" data-action="image-upload#clear"><%= t("inventory.remove_image") %></button>
+    </div>
+  </div>
+
   <%= f.submit t("actions.save"), class: "btn btn-primary" %>
 <% end %>
 
