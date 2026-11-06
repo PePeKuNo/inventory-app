@@ -1,0 +1,12 @@
+<div class="d-flex flex-wrap align-items-center gap-3 mb-3">
+  <h1 class="h3 mb-0"><%= link_to @inventory.title, inventory_path(@inventory) %> / <span class="font-monospace"><%= @item.custom_id_was %></span></h1>
+</div>
+
+<% if @stale %>
+  <div class="alert alert-warning">
+    <%= t("items.stale") %>
+    <%= link_to t("items.reload"), inventory_item_path(@inventory, @item), class: "alert-link" %>
+  </div>
+<% end %>
+
+<%= render "form", inventory: @inventory, item: @item, editable: @editable %>

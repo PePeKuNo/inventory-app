@@ -1,6 +1,6 @@
 class InventoriesController < ApplicationController
   PUBLIC_TABS = [].freeze
-  OWNER_TABS = %w[settings].freeze
+  OWNER_TABS = %w[items settings].freeze
 
   before_action :authenticate_user!
   before_action :set_inventory, except: %i[new create bulk_destroy]
@@ -8,7 +8,7 @@ class InventoriesController < ApplicationController
 
   def show
     @tabs = OWNER_TABS
-    @tab = params[:tab].presence_in(@tabs) || "settings"
+    @tab = params[:tab].presence_in(@tabs) || "items"
   end
 
   def new

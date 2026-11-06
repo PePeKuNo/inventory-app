@@ -1,0 +1,44 @@
+<%# locals: (inventory:, item:, editable:) %>
+<%= form_with model: [ inventory, item ], class: "col-lg-8" do |f| %>
+  <% if item.errors.any? %>
+    <div class="alert alert-danger"><%= item.errors.full_messages.to_sentence %></div>
+  <% end %>
+  <%= f.hidden_field :lock_version if item.persisted? %>
+
+  <fieldset <%= "disabled" unless editable %>>
+    <div class="mb-3">
+      <%= f.label :custom_id, "ID", class: "form-label" %>
+      <%= f.text_field :custom_id, class: "form-control font-monospace", placeholder: (t("items.id_auto") if item.new_record?) %>
+      <% if inventory.custom_id_format.any? %>
+        <div class="form-text"><%= t("items.id_format") %>: <code><%= inventory.generate_custom_id(1) %></code></div>
+      <% end %>
+    </div>
+
+    <% if item.persisted? %>
+      <div class="row mb-3 small text-body-secondary">
+        <div class="col"><%= t("items.created_by") %>: <%= item.user&.name || "—" %></div>
+        <div class="col"><%= t("items.created_at") %>: <%= l(item.created_at, format: :short) %></div>
+      </div>
+    <% end %>
+
+    <% inventory.custom_fields.each do |field| %>
+      <div class="mb-3">
+        <% if field.type == "bool" %>
+          <div class="form-check">
+            <%= f.check_box field.key, class: "form-check-input" %>
+            <%= f.label field.key, field.name, class: "form-check-label" %>
+          </div>
+        <% else %>
+          <%= f.label field.key, field.name, class: "form-label" %>
+          <%= field_input(f, field) %>
+        <% end %>
+        <% if field.description.present? %><div class="form-text"><%= field.description %></div><% end %>
+      </div>
+    <% end %>
+  </fieldset>
+
+  <% if editable %>
+    <%= f.submit t("actions.save"), class: "btn btn-primary" %>
+  <% end %>
+  <%= link_to t("actions.back"), inventory_path(inventory), class: "btn btn-link" %>
+<% end %>
