@@ -1,0 +1,12 @@
+<%# Subscribes the page to new posts: they are appended to #comments by Comment's broadcast. %>
+<%= turbo_stream_from inventory, :comments %>
+
+<div id="comments" class="mb-3">
+  <%= render inventory.comments.includes(:user).order(:created_at) %>
+</div>
+
+<% if user_signed_in? %>
+  <%= render "comments/form", inventory: %>
+<% else %>
+  <p class="text-body-secondary"><%= link_to t("nav.sign_in"), new_user_session_path %> <%= t("chat.to_post") %></p>
+<% end %>

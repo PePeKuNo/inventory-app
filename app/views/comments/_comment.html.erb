@@ -1,0 +1,7 @@
+<div class="border-bottom py-2" id="<%= dom_id(comment) %>">
+  <div class="small text-body-secondary mb-1">
+    <span class="fw-semibold"><%= comment.user.name %></span> ·
+    <%= l(comment.created_at, format: :short) %>
+  </div>
+  <%= markdown(comment.body) %>
+</div>
