@@ -1,0 +1,33 @@
+<h1 class="h3 mb-3">
+  <% if @tag.present? %>
+    <%= t("search.by_tag") %>: <span class="badge text-bg-secondary"><%= @tag %></span>
+  <% else %>
+    <%= t("search.results_for") %> “<%= @query %>”
+  <% end %>
+</h1>
+
+<h2 class="h5"><%= t("search.inventories") %></h2>
+<%= render "inventories/table", inventories: @inventories %>
+
+<% unless @tag.present? %>
+  <h2 class="h5 mt-4"><%= t("search.items") %></h2>
+  <div class="table-responsive" data-controller="table">
+    <table class="table table-hover align-middle">
+      <thead>
+        <tr>
+          <th data-action="click->table#sort">ID</th>
+          <th data-action="click->table#sort"><%= t("search.inventory") %></th>
+        </tr>
+      </thead>
+      <tbody data-table-target="body">
+        <% @items.each do |item| %>
+          <tr data-href="<%= inventory_item_path(item.inventory, item) %>" data-action="click->table#open">
+            <td class="font-monospace"><%= item.custom_id %></td>
+            <td><%= item.inventory.title %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <% if @items.empty? %><p class="text-body-secondary"><%= t("table.empty") %></p><% end %>
+<% end %>

@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   root "home#index"
   get "search", to: "search#index"
   resource :preference, only: :update
+  resources :tags, only: :index
 
   resources :inventories, except: :index do
     collection { delete :bulk_destroy }

@@ -8,7 +8,11 @@
     </button>
 
     <div class="collapse navbar-collapse" id="main-nav">
-      <ul class="navbar-nav align-items-lg-center gap-lg-2 ms-auto">
+      <%= form_with url: search_path, method: :get, class: "d-flex flex-grow-1 my-2 my-lg-0 mx-lg-4", role: "search" do |f| %>
+        <%= f.search_field :q, value: params[:q], class: "form-control", placeholder: t("nav.search") %>
+      <% end %>
+
+      <ul class="navbar-nav align-items-lg-center gap-lg-2">
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"><i class="bi bi-translate"></i> <%= I18n.locale.upcase %></a>
           <ul class="dropdown-menu dropdown-menu-end">

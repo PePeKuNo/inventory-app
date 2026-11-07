@@ -6,4 +6,16 @@
     <h2 class="h4 mt-4"><%= t("home.popular") %></h2>
     <%= render "inventories/table", inventories: @popular %>
   </div>
+
+  <div class="col-lg-4">
+    <h2 class="h4"><%= t("home.tags") %></h2>
+    <div class="tag-cloud">
+      <% max = @tags.map(&:usage).max.to_f %>
+      <% @tags.each do |tag| %>
+        <%# Font size grows with the number of inventories using the tag. %>
+        <%= link_to tag.name, search_path(tag: tag.name), style: "font-size: #{0.85 + tag.usage / max}rem" %>
+      <% end %>
+      <% if @tags.empty? %><p class="text-body-secondary"><%= t("table.empty") %></p><% end %>
+    </div>
+  </div>
 </div>

@@ -5,6 +5,9 @@
 </div>
 <p class="text-body-secondary small">
   <%= @inventory.category&.name %> · <%= @inventory.user.name %>
+  <% @inventory.tags.each do |tag| %>
+    <%= link_to tag.name, search_path(tag: tag.name), class: "badge text-bg-secondary text-decoration-none" %>
+  <% end %>
 </p>
 
 <ul class="nav nav-tabs mb-3">
