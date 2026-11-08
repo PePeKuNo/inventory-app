@@ -1,5 +1,16 @@
 <div class="d-flex flex-wrap align-items-center gap-3 mb-3">
   <h1 class="h3 mb-0"><%= link_to @inventory.title, inventory_path(@inventory) %> / <span class="font-monospace"><%= @item.custom_id_was %></span></h1>
+  <%= turbo_frame_tag "like" do %>
+    <% if user_signed_in? %>
+      <% liked = @item.liked_by?(current_user) %>
+      <%= button_to inventory_item_like_path(@inventory, @item), method: (liked ? :delete : :post),
+            class: "btn btn-sm #{liked ? "btn-danger" : "btn-outline-danger"}" do %>
+        <i class="bi bi-heart<%= "-fill" if liked %>"></i> <%= @item.likes_count %>
+      <% end %>
+    <% else %>
+      <span class="text-body-secondary"><i class="bi bi-heart"></i> <%= @item.likes_count %></span>
+    <% end %>
+  <% end %>
 </div>
 
 <% if @stale %>
