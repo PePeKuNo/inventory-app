@@ -1,0 +1,36 @@
+<div class="col-lg-8">
+  <%= form_with url: inventory_accesses_path(inventory), class: "d-flex gap-2 mb-3" do %>
+    <div class="flex-grow-1">
+      <select name="user_id" placeholder="<%= t("access.add_placeholder") %>"
+              data-controller="user-select" data-user-select-url-value="<%= users_path %>"></select>
+    </div>
+    <button class="btn btn-primary"><%= t("access.add") %></button>
+  <% end %>
+
+  <%= form_with url: bulk_destroy_inventory_accesses_path(inventory), method: :delete, id: "access-form" do %><% end %>
+  <div data-controller="table">
+    <button type="submit" form="access-form" class="btn btn-sm btn-outline-danger mb-2" disabled data-table-target="action">
+      <i class="bi bi-person-dash"></i> <%= t("access.remove") %>
+    </button>
+    <table class="table align-middle">
+      <thead>
+        <tr>
+          <th class="table-select"><input type="checkbox" class="form-check-input" data-table-target="selectAll" data-action="table#toggleAll"></th>
+          <th data-action="click->table#sort"><%= t("access.name") %></th>
+          <th data-action="click->table#sort"><%= t("access.email") %></th>
+        </tr>
+      </thead>
+      <tbody data-table-target="body">
+        <% inventory.writers.order(:name).each do |user| %>
+          <tr>
+            <td><input type="checkbox" class="form-check-input" name="ids[]" value="<%= user.id %>" form="access-form"
+                       data-table-target="checkbox" data-action="table#updateActions"></td>
+            <td><%= user.name %></td>
+            <td><%= user.email %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <div class="form-text"><%= t("access.sort_hint") %></div>
+  </div>
+</div>

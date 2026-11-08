@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   root "home#index"
   get "search", to: "search#index"
   resource :preference, only: :update
+
+  resources :users, only: :index
   resources :tags, only: :index
 
   resources :inventories, except: :index do
