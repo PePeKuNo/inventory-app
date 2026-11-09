@@ -16,6 +16,11 @@
       <%= link_to t("tabs.#{tab}"), inventory_path(@inventory, tab:), class: "nav-link #{"active" if tab == @tab}" %>
     </li>
   <% end %>
+  <li class="nav-item">
+    <%= link_to inventory_items_path(@inventory, format: :csv), class: "nav-link", data: { turbo: false } do %>
+      <i class="bi bi-download"></i> <%= t("tabs.export") %>
+    <% end %>
+  </li>
 </ul>
 
 <%= render "inventories/tabs/#{@tab}", inventory: @inventory %>
