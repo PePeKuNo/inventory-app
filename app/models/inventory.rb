@@ -1,5 +1,5 @@
 class Inventory < ApplicationRecord
-  include CustomFields, PgSearch::Model
+  include CustomFields, Statistics, PgSearch::Model
 
   belongs_to :user
   belongs_to :category, optional: true
