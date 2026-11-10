@@ -1,0 +1,23 @@
+<%= form_with model: inventory, class: "col-lg-8",
+      data: { controller: "custom-id",
+              custom_id_preview_url_value: custom_id_preview_inventory_path(inventory),
+              custom_id_max_value: CustomId::MAX_ELEMENTS } do |f| %>
+  <p class="text-body-secondary small"><%= t("custom_id.intro") %></p>
+  <p class="fs-5"><%= t("custom_id.example") %>: <strong class="font-monospace" data-custom-id-target="preview"></strong></p>
+
+  <div data-custom-id-target="list">
+    <% inventory.custom_id_format.each do |element| %>
+      <%= render "inventories/tabs/id_element", element: %>
+    <% end %>
+  </div>
+
+  <template data-custom-id-target="template">
+    <%= render "inventories/tabs/id_element", element: { "type" => "fixed", "format" => "" } %>
+  </template>
+
+  <button type="button" class="btn btn-outline-primary mt-2" data-custom-id-target="addButton" data-action="custom-id#add">
+    <i class="bi bi-plus-lg"></i> <%= t("custom_id.add") %>
+  </button>
+
+  <%= f.submit t("actions.save"), class: "btn btn-primary mt-2" %>
+<% end %>

@@ -1,0 +1,26 @@
+<%# locals: (element:) %>
+<div class="id-element row g-2 align-items-center mb-1" data-controller="popover">
+  <div class="col-auto"><i class="bi bi-arrow-down-up drag-handle fs-5" title="<%= t("custom_id.drag") %>"></i></div>
+  <div class="col-sm-5">
+    <select name="inventory[custom_id_format][][type]" class="form-select" data-action="custom-id#typeChanged">
+      <% CustomId::TYPES.each do |type| %>
+        <option value="<%= type %>" <%= "selected" if element["type"] == type %>><%= t("custom_id.types.#{type}") %></option>
+      <% end %>
+    </select>
+  </div>
+  <div class="col">
+    <div class="input-group">
+      <input type="text" name="inventory[custom_id_format][][format]" value="<%= element["format"] %>"
+             class="form-control format-input" data-action="input->custom-id#refreshPreview">
+      <button type="button" class="btn btn-outline-secondary" tabindex="0" data-bs-toggle="popover"
+              data-bs-title="<%= t("custom_id.help_title") %>" data-bs-content="<%= t("custom_id.help") %>">
+        <i class="bi bi-question-circle"></i>
+      </button>
+    </div>
+  </div>
+  <div class="col-12 form-text mt-0 mb-2">
+    <% CustomId::TYPES.each do |type| %>
+      <span data-help="<%= type %>" class="d-none"><%= t("custom_id.hints.#{type}") %></span>
+    <% end %>
+  </div>
+</div>

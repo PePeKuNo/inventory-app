@@ -1,6 +1,6 @@
 class InventoriesController < ApplicationController
   PUBLIC_TABS = %w[items chat stats].freeze
-  OWNER_TABS = %w[items chat settings access stats].freeze
+  OWNER_TABS = %w[items chat settings custom_id access stats].freeze
 
   before_action :authenticate_user!
   before_action :set_inventory, except: %i[new create bulk_destroy]
