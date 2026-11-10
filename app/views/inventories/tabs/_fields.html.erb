@@ -1,0 +1,45 @@
+<%= form_with model: inventory, class: "col-lg-10",
+      data: { controller: "fields", limit_message: t("fields.limit") } do |f| %>
+  <p class="text-body-secondary small"><%= t("fields.intro") %></p>
+
+  <div data-fields-target="list">
+    <% inventory.field_slots.each do |field| %>
+      <% enabled = inventory["#{field.key}_state"] %>
+      <div class="card mb-2" data-fields-target="row" data-type="<%= field.type %>" <%= "hidden" unless enabled %>>
+        <div class="card-body py-2 row g-2 align-items-center">
+          <%= hidden_field_tag "inventory[#{field.key}_state]", enabled, data: { state: true } %>
+          <%= hidden_field_tag "inventory[#{field.key}_position]", field.position, data: { position: true } %>
+          <div class="col-auto"><i class="bi bi-grip-vertical drag-handle fs-5"></i></div>
+          <div class="col-md-2"><span class="badge text-bg-secondary"><%= field_type_label(field.type) %></span></div>
+          <div class="col-md-3">
+            <input type="text" name="inventory[<%= field.key %>_name]" value="<%= field.name %>" class="form-control form-control-sm" placeholder="<%= t("fields.name") %>">
+          </div>
+          <div class="col-md">
+            <input type="text" name="inventory[<%= field.key %>_description]" value="<%= field.description %>" class="form-control form-control-sm" placeholder="<%= t("fields.description") %>">
+          </div>
+          <div class="col-auto form-check ms-2">
+            <%= hidden_field_tag "inventory[#{field.key}_show_in_table]", false, id: nil %>
+            <%= check_box_tag "inventory[#{field.key}_show_in_table]", true, field.show_in_table, class: "form-check-input", id: "#{field.key}_show" %>
+            <label class="form-check-label small" for="<%= field.key %>_show"><%= t("fields.show_in_table") %></label>
+          </div>
+          <div class="col-auto">
+            <button type="button" class="btn btn-sm btn-link text-danger" data-action="fields#remove" title="<%= t("actions.delete") %>"><i class="bi bi-x-lg"></i></button>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="dropdown mt-2">
+    <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown">
+      <i class="bi bi-plus-lg"></i> <%= t("fields.add") %>
+    </button>
+    <ul class="dropdown-menu">
+      <% Inventory::CustomFields::TYPES.each do |type| %>
+        <li><button type="button" class="dropdown-item" data-action="fields#add" data-fields-type-param="<%= type %>"><%= field_type_label(type) %></button></li>
+      <% end %>
+    </ul>
+  </div>
+
+  <%= f.submit t("actions.save"), class: "btn btn-primary mt-2" %>
+<% end %>
