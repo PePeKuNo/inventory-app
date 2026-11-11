@@ -1,4 +1,14 @@
 <div class="col-lg-8">
+  <%= form_with model: inventory, class: "mb-4" do |f| %>
+    <%= hidden_field_tag :tab, "access" %>
+    <%= f.hidden_field :lock_version %>
+    <div class="form-check form-switch">
+      <%= f.check_box :is_public, class: "form-check-input", onchange: "this.form.requestSubmit()" %>
+      <%= f.label :is_public, t("access.public"), class: "form-check-label" %>
+    </div>
+    <div class="form-text"><%= t("access.public_hint") %></div>
+  <% end %>
+
   <%= form_with url: inventory_accesses_path(inventory), class: "d-flex gap-2 mb-3" do %>
     <div class="flex-grow-1">
       <select name="user_id" placeholder="<%= t("access.add_placeholder") %>"

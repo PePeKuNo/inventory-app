@@ -2,12 +2,12 @@ class InventoriesController < ApplicationController
   PUBLIC_TABS = %w[items chat stats].freeze
   OWNER_TABS = %w[items chat settings custom_id fields access stats].freeze
 
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: :show
   before_action :set_inventory, except: %i[new create bulk_destroy]
   before_action :require_editor, only: %i[update destroy custom_id_preview]
 
   def show
-    @tabs = OWNER_TABS
+    @tabs = @inventory.editable_by?(current_user) ? OWNER_TABS : PUBLIC_TABS
     @tab = params[:tab].presence_in(@tabs) || "items"
   end
 
