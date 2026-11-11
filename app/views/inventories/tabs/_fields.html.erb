@@ -1,5 +1,9 @@
 <%= form_with model: inventory, class: "col-lg-10",
-      data: { controller: "fields", limit_message: t("fields.limit") } do |f| %>
+      data: { controller: "autosave fields",
+              action: "input->autosave#markDirty change->autosave#markDirty submit->autosave#submit",
+              autosave_messages_value: t("autosave").to_json,
+              limit_message: t("fields.limit") } do |f| %>
+  <%= f.hidden_field :lock_version %>
   <p class="text-body-secondary small"><%= t("fields.intro") %></p>
 
   <div data-fields-target="list">
@@ -40,6 +44,4 @@
       <% end %>
     </ul>
   </div>
-
-  <%= f.submit t("actions.save"), class: "btn btn-primary mt-2" %>
 <% end %>

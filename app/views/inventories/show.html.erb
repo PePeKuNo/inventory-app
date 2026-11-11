@@ -1,7 +1,11 @@
 <% content_for :title, @inventory.title %>
+<% editable = @inventory.editable_by?(current_user) %>
 
 <div class="d-flex flex-wrap align-items-center gap-3 mb-1">
   <h1 class="h2 mb-0"><%= @inventory.title %></h1>
+  <% if editable && @tab.in?(%w[settings custom_id fields]) %>
+    <span class="badge rounded-pill text-bg-light border" id="save-status"><%= t("autosave.saved") %></span>
+  <% end %>
 </div>
 <p class="text-body-secondary small">
   <%= @inventory.category&.name %> · <%= @inventory.user.name %>
