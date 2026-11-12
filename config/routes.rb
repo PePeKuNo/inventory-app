@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   get "search", to: "search#index"
   resource :preference, only: :update
 
-  resources :users, only: :index
+  resources :users, only: %i[index show]
   resources :tags, only: :index
 
   resources :inventories, except: :index do

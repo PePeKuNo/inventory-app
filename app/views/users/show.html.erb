@@ -1,0 +1,21 @@
+<% own_page = current_user.present? && (current_user == @user || current_user.admin?) %>
+<h1 class="h3 mb-4"><i class="bi bi-person-circle"></i> <%= @user.name %></h1>
+
+<h2 class="h5"><%= t("users.owned") %></h2>
+<% if own_page %>
+  <%= form_with url: bulk_destroy_inventories_path, method: :delete, id: "owned-form" do %><% end %>
+<% end %>
+<%= render "inventories/table", inventories: @owned, filter: true, form: (own_page ? "owned-form" : nil), toolbar: (capture do %>
+  <% if own_page %>
+    <div class="btn-toolbar gap-2 mb-2">
+      <%= link_to new_inventory_path, class: "btn btn-sm btn-primary" do %><i class="bi bi-plus-lg"></i> <%= t("actions.new") %><% end %>
+      <button type="submit" form="owned-form" class="btn btn-sm btn-outline-danger" disabled
+              data-table-target="action" data-turbo-confirm="<%= t("actions.confirm") %>">
+        <i class="bi bi-trash"></i> <%= t("actions.delete") %>
+      </button>
+    </div>
+  <% end %>
+<% end) %>
+
+<h2 class="h5 mt-4"><%= t("users.writable") %></h2>
+<%= render "inventories/table", inventories: @writable, filter: true %>

@@ -35,7 +35,7 @@
               <% end %>
             </td>
             <td><%= inventory.category&.name %></td>
-            <td><%= inventory.user.name %></td>
+            <td><%= link_to inventory.user.name, user_path(inventory.user) %></td>
           </tr>
         <% end %>
       </tbody>
