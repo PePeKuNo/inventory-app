@@ -16,6 +16,15 @@ class User < ApplicationRecord
     where("LOWER(name) LIKE :p OR LOWER(email) LIKE :p", p: pattern)
   }
 
+  # Blocked users can't sign in (Devise calls this on every request).
+  def active_for_authentication?
+    super && !blocked?
+  end
+
+  def inactive_message
+    blocked? ? :blocked : super
+  end
+
   # Finds the user by the social account, or links it to an existing user with the same email.
   def self.from_omniauth(auth)
     user = find_by(provider: auth.provider, uid: auth.uid) || find_or_initialize_by(email: auth.info.email)

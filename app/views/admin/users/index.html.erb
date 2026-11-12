@@ -1,0 +1,49 @@
+<h1 class="h3 mb-3"><%= t("admin.title") %></h1>
+
+<%= form_with url: bulk_update_admin_users_path, method: :patch, id: "users-form" do %><% end %>
+
+<div data-controller="table">
+  <div class="btn-toolbar flex-wrap gap-2 mb-2">
+    <% { "block" => "bi-lock", "unblock" => "bi-unlock", "make_admin" => "bi-shield-plus", "remove_admin" => "bi-shield-minus" }.each do |operation, icon| %>
+      <button type="submit" form="users-form" name="operation" value="<%= operation %>" class="btn btn-sm btn-outline-secondary" disabled data-table-target="action">
+        <i class="bi <%= icon %>"></i> <%= t("admin.#{operation}") %>
+      </button>
+    <% end %>
+    <%# Turbo sends a real DELETE request to formaction, so both buttons can share one form. %>
+    <button type="submit" form="users-form" formaction="<%= bulk_destroy_admin_users_path %>" formmethod="delete"
+            class="btn btn-sm btn-outline-danger" disabled data-table-target="action"
+            data-turbo-confirm="<%= t("actions.confirm") %>">
+      <i class="bi bi-trash"></i> <%= t("actions.delete") %>
+    </button>
+    <input type="search" class="form-control form-control-sm ms-auto" style="max-width: 16rem"
+           placeholder="<%= t("table.filter") %>" data-table-target="filter" data-action="input->table#filter">
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-hover align-middle">
+      <thead>
+        <tr>
+          <th class="table-select"><input type="checkbox" class="form-check-input" data-table-target="selectAll" data-action="table#toggleAll"></th>
+          <th data-action="click->table#sort"><%= t("access.name") %></th>
+          <th data-action="click->table#sort"><%= t("access.email") %></th>
+          <th data-action="click->table#sort"><%= t("admin.role") %></th>
+          <th data-action="click->table#sort"><%= t("admin.status") %></th>
+        </tr>
+      </thead>
+      <tbody data-table-target="body">
+        <% @users.each do |user| %>
+          <tr data-href="<%= user_path(user) %>" data-action="click->table#open">
+            <td>
+              <input type="checkbox" class="form-check-input" name="ids[]" value="<%= user.id %>" form="users-form"
+                     data-table-target="checkbox" data-action="table#updateActions">
+            </td>
+            <td><%= user.name %></td>
+            <td><%= user.email %></td>
+            <td><%= user.admin? ? t("admin.admin") : t("admin.user") %></td>
+            <td><%= user.blocked? ? tag.span(t("admin.blocked"), class: "badge text-bg-danger") : tag.span(t("admin.active"), class: "badge text-bg-success") %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

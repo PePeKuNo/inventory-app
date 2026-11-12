@@ -32,6 +32,9 @@
             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"><i class="bi bi-person-circle"></i> <%= current_user.name %></a>
             <ul class="dropdown-menu dropdown-menu-end">
               <li><%= link_to t("nav.my_page"), user_path(current_user), class: "dropdown-item" %></li>
+              <% if current_user.admin? %>
+                <li><%= link_to t("nav.admin"), admin_users_path, class: "dropdown-item" %></li>
+              <% end %>
               <li><hr class="dropdown-divider"></li>
               <li><%= button_to t("nav.sign_out"), destroy_user_session_path, method: :delete, class: "dropdown-item" %></li>
             </ul>

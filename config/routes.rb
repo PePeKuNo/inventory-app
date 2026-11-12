@@ -22,5 +22,14 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :admin do
+    resources :users, only: :index do
+      collection do
+        patch :bulk_update
+        delete :bulk_destroy
+      end
+    end
+  end
+
   get "up" => "rails/health#show", as: :rails_health_check
 end

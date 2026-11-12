@@ -5,7 +5,11 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   private
     def sign_in_from_provider(kind)
       user = User.from_omniauth(request.env["omniauth.auth"])
-      sign_in_and_redirect user, event: :authentication
-      set_flash_message(:notice, :success, kind:)
+      if user.active_for_authentication?
+        sign_in_and_redirect user, event: :authentication
+        set_flash_message(:notice, :success, kind:)
+      else
+        redirect_to new_user_session_path, alert: t("devise.failure.blocked")
+      end
     end
 end
