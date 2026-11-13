@@ -8,6 +8,7 @@ class Item < ApplicationRecord
   before_validation :assign_custom_id, on: :create
 
   validates :custom_id, presence: true, uniqueness: { scope: :inventory_id }
+  validate :custom_id_matches_format, if: :custom_id_changed?
 
   pg_search_scope :search,
     against: %i[custom_id custom_string1 custom_string2 custom_string3 custom_text1 custom_text2 custom_text3],
@@ -23,5 +24,10 @@ class Item < ApplicationRecord
     def assign_custom_id
       self.sequence_number = inventory.items.maximum(:sequence_number).to_i + 1
       self.custom_id = inventory.generate_custom_id(sequence_number) if custom_id.blank?
+    end
+
+    def custom_id_matches_format
+      regexp = inventory.custom_id_regexp
+      errors.add(:custom_id, :invalid) if regexp && custom_id.present? && !regexp.match?(custom_id)
     end
 end
