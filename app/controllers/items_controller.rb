@@ -61,8 +61,13 @@ class ItemsController < ApplicationController
       deny_access unless @inventory.writable_by?(current_user)
     end
 
+    # The validation catches most duplicate IDs, the unique DB index catches the rest
+    # (two users saving the same ID at the same moment).
     def save_item
       @item.save
+    rescue ActiveRecord::RecordNotUnique
+      @item.errors.add(:custom_id, :taken)
+      false
     end
 
     def item_params
