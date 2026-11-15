@@ -41,7 +41,8 @@ class Inventory < ApplicationRecord
 
   def tag_list=(value)
     names = value.to_s.split(",").map { |name| name.strip.downcase }.compact_blank.uniq
-    self.tags = names.map { |name| Tag.find_or_create_by!(name:) }
+    Tag.insert_all(names.map { |name| { name: } }) if names.any? # skips tags that already exist
+    self.tags = Tag.where(name: names)
   end
 
   # Keeps only known keys, so the stored format is always a clean list.
