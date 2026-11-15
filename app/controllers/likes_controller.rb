@@ -5,6 +5,8 @@ class LikesController < ApplicationController
   def create
     @item.likes.create(user: current_user) # the unique index stops a second like
     redirect_to inventory_item_path(@item.inventory, @item)
+  rescue ActiveRecord::RecordNotUnique
+    redirect_to inventory_item_path(@item.inventory, @item)
   end
 
   def destroy
