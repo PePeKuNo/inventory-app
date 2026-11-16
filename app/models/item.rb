@@ -2,7 +2,7 @@ class Item < ApplicationRecord
   include PgSearch::Model
 
   belongs_to :inventory
-  belongs_to :user
+  belongs_to :user, optional: true # nil when the author was deleted
   has_many :likes, dependent: :destroy
 
   before_validation :assign_custom_id, on: :create

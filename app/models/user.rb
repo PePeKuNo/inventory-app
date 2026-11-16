@@ -3,7 +3,7 @@ class User < ApplicationRecord
          :omniauthable, omniauth_providers: %i[google_oauth2 github]
 
   has_many :inventories, dependent: :destroy
-  has_many :items, dependent: :destroy
+  has_many :items, dependent: :nullify
   has_many :comments, dependent: :destroy
   has_many :likes, dependent: :destroy
   has_many :accesses, dependent: :destroy
