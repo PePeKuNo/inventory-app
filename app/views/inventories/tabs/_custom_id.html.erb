@@ -5,6 +5,8 @@
               custom_id_preview_url_value: custom_id_preview_inventory_path(inventory),
               custom_id_max_value: CustomId::MAX_ELEMENTS } do |f| %>
   <%= f.hidden_field :lock_version %>
+  <%= hidden_field_tag "inventory[custom_id_format][]", "" %><%# keeps the key when the list is empty %>
+
   <p class="text-body-secondary small"><%= t("custom_id.intro") %></p>
   <p class="fs-5"><%= t("custom_id.example") %>: <strong class="font-monospace" data-custom-id-target="preview"></strong></p>
 
