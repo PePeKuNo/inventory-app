@@ -1,3 +1,4 @@
+<%# Full page reload (no Turbo): Turbo only swaps <body>, but theme and language live on <html>. %>
 <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom">
   <div class="container">
     <%= link_to root_path, class: "navbar-brand fw-semibold" do %>
@@ -16,13 +17,13 @@
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"><i class="bi bi-translate"></i> <%= I18n.locale.upcase %></a>
           <ul class="dropdown-menu dropdown-menu-end">
-            <li><%= button_to "English", preference_path, method: :patch, params: { locale: "en" }, class: "dropdown-item" %></li>
-            <li><%= button_to "Українська", preference_path, method: :patch, params: { locale: "uk" }, class: "dropdown-item" %></li>
+            <li><%= button_to "English", preference_path, method: :patch, params: { locale: "en" }, class: "dropdown-item", form: { data: { turbo: false } } %></li>
+            <li><%= button_to "Українська", preference_path, method: :patch, params: { locale: "uk" }, class: "dropdown-item", form: { data: { turbo: false } } %></li>
           </ul>
         </li>
         <li class="nav-item">
           <% next_theme = current_theme == "dark" ? "light" : "dark" %>
-          <%= button_to preference_path, method: :patch, params: { theme: next_theme }, class: "btn nav-link", title: t("nav.theme") do %>
+          <%= button_to preference_path, method: :patch, params: { theme: next_theme }, class: "btn nav-link", title: t("nav.theme"), form: { data: { turbo: false } } do %>
             <i class="bi <%= current_theme == "dark" ? "bi-sun" : "bi-moon-stars" %>"></i>
           <% end %>
         </li>
