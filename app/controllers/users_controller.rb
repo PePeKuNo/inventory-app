@@ -7,7 +7,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @owned = @user.inventories.latest
-    @writable = @user.writable_inventories.latest
+    @owned = @user.inventories.includes(:user, :category).latest
+    @writable = @user.writable_inventories.includes(:user, :category).latest
   end
 end
