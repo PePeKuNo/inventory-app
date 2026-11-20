@@ -75,9 +75,9 @@ class InventoriesController < ApplicationController
     end
 
     def inventory_params
-      params.require(:inventory).permit(
+      params.expect(inventory: [
         :title, :description, :category_id, :image_url, :tag_list, :is_public, :lock_version,
         *Inventory.field_setting_columns, custom_id_format: [ [ :type, :format ] ]
-      )
+      ])
     end
 end

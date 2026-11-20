@@ -71,6 +71,6 @@ class ItemsController < ApplicationController
     end
 
     def item_params
-      params.require(:item).permit(:custom_id, :lock_version, *@inventory.custom_fields.map(&:key))
+      params.expect(item: [ :custom_id, :lock_version, *@inventory.custom_fields.map(&:key) ])
     end
 end
