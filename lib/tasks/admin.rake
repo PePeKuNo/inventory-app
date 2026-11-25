@@ -4,9 +4,14 @@ namespace :admin do
   desc "Make the user with ADMIN_EMAIL an admin"
   task promote: :environment do
     email = ENV["ADMIN_EMAIL"].to_s.strip.downcase
-    next if email.empty?
 
-    count = User.where("LOWER(email) = ?", email).update_all(admin: true)
-    puts "admin:promote #{email} -> #{count} user(s)"
+    if email.present?
+      count = User.where("LOWER(email) = ?", email).update_all(admin: true)
+      puts "admin:promote #{email} -> #{count} user(s)"
+    else
+      puts "admin:promote skipped: ADMIN_EMAIL is empty"
+    end
+
+    Rake::Task["demo:seed"].invoke if Rake::Task.task_defined?("demo:seed")
   end
 end
