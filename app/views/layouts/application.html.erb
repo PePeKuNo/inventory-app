@@ -33,5 +33,9 @@
 
       <%= yield %>
     </main>
+
+    <footer class="container py-3 border-top small text-body-secondary">
+      <%= link_to t("privacy.title"), privacy_path, class: "link-secondary" %>
+    </footer>
   </body>
 </html>

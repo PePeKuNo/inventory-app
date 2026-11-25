@@ -1,4 +1,10 @@
 en:
+  privacy:
+    title: Privacy policy
+    body: |
+      This is a study project. When you sign in with Google or GitHub, we receive only your name and email address.
+      They are used to show who created inventories, items and posts, and to manage access. We don't share them with anyone.
+      Images are stored in Cloudinary. You can ask the administrator to delete your account and data at any time.
   nav:
     search: Search inventories and items…
     theme: Switch theme

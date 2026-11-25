@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   root "home#index"
   get "search", to: "search#index"
+  get "privacy", to: "home#privacy"
   resource :preference, only: :update
 
   resources :users, only: %i[index show]

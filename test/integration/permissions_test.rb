@@ -77,4 +77,9 @@ class PermissionsTest < ActionDispatch::IntegrationTest
     get new_inventory_path
     assert_redirected_to new_user_session_path
   end
+
+  test "privacy policy page is public" do
+    get privacy_path
+    assert_response :success
+  end
 end
