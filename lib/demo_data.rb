@@ -1,7 +1,14 @@
 module DemoData
   module_function
 
+  # Runs on every server start, so it only fills an empty database:
+  # otherwise deleted demo data would come back after each restart.
   def seed!
+    if Inventory.exists?
+      puts "demo:seed skipped: inventories already exist"
+      return
+    end
+
     email = ENV["ADMIN_EMAIL"].to_s.strip.downcase
     owner = User.find_by("LOWER(email) = ?", email) || User.order(:id).first
 
