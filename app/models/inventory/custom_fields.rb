@@ -12,6 +12,11 @@ module Inventory::CustomFields
     def numeric? = type == "int"
   end
 
+  # Numbers are stored as decimal: show 5.0 as 5, keep 0.25 as is.
+  def self.display_number(value)
+    value.nil? || value.frac.nonzero? ? value : value.to_i
+  end
+
   included do
     validate :enabled_fields_have_names
   end

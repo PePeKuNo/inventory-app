@@ -15,7 +15,7 @@ module ApplicationHelper
     case field.type
     when "bool" then tag.i(class: value ? "bi bi-check-square" : "bi bi-square")
     when "link" then value.present? ? link_to(value.truncate(40), value, target: "_blank", rel: "noopener") : nil
-    when "int" then value&.to_s&.delete_suffix(".0")
+    when "int" then Inventory::CustomFields.display_number(value)
     else value.to_s.truncate(80)
     end
   end

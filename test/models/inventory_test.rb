@@ -51,4 +51,11 @@ class InventoryTest < ActiveSupport::TestCase
     assert_includes Inventory.search_with_tags("office"), @inventory
     assert_empty Inventory.search_with_tags("tractor")
   end
+
+  test "whole numbers are shown without .0" do
+    assert_equal 5, Inventory::CustomFields.display_number(BigDecimal("5.0"))
+    assert_equal BigDecimal("0.25"), Inventory::CustomFields.display_number(BigDecimal("0.25"))
+    assert_nil Inventory::CustomFields.display_number(nil)
+    assert_includes @inventory.items_csv, "PART-0001,Dell,1000,"
+  end
 end

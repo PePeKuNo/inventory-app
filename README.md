@@ -1,5 +1,7 @@
 # Inventory
 
+**Live demo:** https://inventory-app-58wi.onrender.com (free hosting: the first request after a pause can take up to a minute)
+
 A web app for tracking anything: office equipment, library books, HR documents.
 An owner creates an inventory (a template with its own fields and ID format), and other users fill it with items.
 

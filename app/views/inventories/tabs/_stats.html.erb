@@ -13,9 +13,9 @@
           <td><%= field_type_label(field.type) %></td>
           <td>
             <% if field.type == "int" %>
-              <%= t("stats.min") %> <%= stats["#{field.key}_min"]&.round(2) || "—" %>,
-              <%= t("stats.max") %> <%= stats["#{field.key}_max"]&.round(2) || "—" %>,
-              <%= t("stats.avg") %> <%= stats["#{field.key}_avg"]&.round(2) || "—" %>
+              <%= t("stats.min") %> <%= Inventory::CustomFields.display_number(stats["#{field.key}_min"]&.round(2)) || "—" %>,
+              <%= t("stats.max") %> <%= Inventory::CustomFields.display_number(stats["#{field.key}_max"]&.round(2)) || "—" %>,
+              <%= t("stats.avg") %> <%= Inventory::CustomFields.display_number(stats["#{field.key}_avg"]&.round(2)) || "—" %>
             <% elsif field.type == "bool" %>
               <%= t("stats.checked") %>: <%= stats["#{field.key}_true"] %> / <%= stats["items_count"] %>
             <% else %>

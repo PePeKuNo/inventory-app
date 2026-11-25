@@ -7,7 +7,8 @@ module Inventory::Export
     CSV.generate do |csv|
       csv << [ "ID", *fields.map(&:name), "Created by", "Created at" ]
       items.includes(:user).order(:created_at).each do |item|
-        csv << [ item.custom_id, *fields.map { |field| item[field.key] }, item.user&.name, item.created_at ]
+        values = fields.map { |field| field.numeric? ? Inventory::CustomFields.display_number(item[field.key]) : item[field.key] }
+        csv << [ item.custom_id, *values, item.user&.name, item.created_at ]
       end
     end
   end
