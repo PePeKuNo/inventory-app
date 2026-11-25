@@ -48,11 +48,16 @@ export default class extends Controller {
   }
 
   async refreshPreview() {
+    // Answers can come back out of order while the user types; only the latest request counts.
+    const request = (this.previewRequest = (this.previewRequest || 0) + 1)
     const data = new FormData(this.element)
     data.delete("_method") // the preview route is a plain POST, not the form's PATCH
     // Form tokens are bound to the form's own action, so we send the page-wide CSRF token instead.
-    const token = document.querySelector("meta[name='csrf-token']").content
-    const response = await fetch(this.previewUrlValue, { method: "POST", body: data, headers: { "X-CSRF-Token": token } })
-    if (response.ok) this.previewTarget.textContent = await response.text()
+    // (the meta tag is absent when CSRF protection is off, e.g. in tests)
+    const token = document.querySelector("meta[name='csrf-token']")?.content
+    const headers = token ? { "X-CSRF-Token": token } : {}
+    const response = await fetch(this.previewUrlValue, { method: "POST", body: data, headers })
+    const text = await response.text()
+    if (response.ok && request === this.previewRequest) this.previewTarget.textContent = text
   }
 }

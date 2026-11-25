@@ -1,0 +1,11 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Dynamic Render Path",
+      "fingerprint": "2aaa83f598cc09c34c69b10362356bedceb301c53bd79afb040247a5c5123410",
+      "file": "app/views/inventories/show.html.erb",
+      "note": "@tab is taken from a fixed whitelist (params[:tab].presence_in(@tabs) in InventoriesController#show), so only known partials can be rendered."
+    }
+  ],
+  "brakeman_version": "8.1.1"
+}
