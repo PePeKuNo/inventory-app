@@ -10,9 +10,10 @@ class Item < ApplicationRecord
   validates :custom_id, presence: true, uniqueness: { scope: :inventory_id }
   validate :custom_id_matches_format, if: :custom_id_changed?
 
+  # Uses the indexed "searchable" column, see the AddSearchVectors migration.
   pg_search_scope :search,
     against: %i[custom_id custom_string1 custom_string2 custom_string3 custom_text1 custom_text2 custom_text3],
-    using: { tsearch: { prefix: true } }
+    using: { tsearch: { prefix: true, tsvector_column: "searchable" } }
 
   def liked_by?(user)
     user.present? && likes.exists?(user_id: user.id)

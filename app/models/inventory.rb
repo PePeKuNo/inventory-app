@@ -13,10 +13,15 @@ class Inventory < ApplicationRecord
   validates :title, presence: true
   validate :custom_id_format_is_valid
 
-  pg_search_scope :search,
-    against: { title: "A", description: "B" },
-    associated_against: { tags: :name },
-    using: { tsearch: { prefix: true } }
+  # Uses the indexed "searchable" column (title + description), see the AddSearchVectors migration.
+  pg_search_scope :search, against: %i[title description],
+    using: { tsearch: { prefix: true, tsvector_column: "searchable" } }
+
+  # Full-text matches plus inventories having a tag with exactly this name.
+  def self.search_with_tags(query)
+    tagged = Tagging.joins(:tag).where(tags: { name: query.downcase }).select(:inventory_id)
+    where(id: search(query).select(:id)).or(where(id: tagged))
+  end
 
   scope :latest, -> { order(created_at: :desc) }
   scope :most_popular, -> {

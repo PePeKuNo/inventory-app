@@ -23,4 +23,8 @@ class ItemTest < ActiveSupport::TestCase
     item = @inventory.items.new(user: users(:owner), custom_id: "PART-0001", sequence_number: 5)
     assert_raises(ActiveRecord::RecordNotUnique) { item.save!(validate: false) }
   end
+
+  test "full-text search finds items by field values" do
+    assert_includes Item.search("del"), items(:dell)
+  end
 end

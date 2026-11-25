@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_23_210000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_25_090000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -125,7 +125,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_23_210000) do
     t.integer "custom_bool3_position", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.virtual "searchable", type: :tsvector, as: "(setweight(to_tsvector('simple'::regconfig, (COALESCE(title, ''::character varying))::text), 'A'::\"char\") || setweight(to_tsvector('simple'::regconfig, COALESCE(description, ''::text)), 'B'::\"char\"))", stored: true
     t.index ["category_id"], name: "index_inventories_on_category_id"
+    t.index ["searchable"], name: "index_inventories_on_searchable", using: :gin
     t.index ["user_id"], name: "index_inventories_on_user_id"
   end
 
@@ -153,8 +155,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_23_210000) do
     t.boolean "custom_bool3"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.virtual "searchable", type: :tsvector, as: "to_tsvector('simple'::regconfig, (((((((((((((COALESCE(custom_id, ''::character varying))::text || ' '::text) || (COALESCE(custom_string1, ''::character varying))::text) || ' '::text) || (COALESCE(custom_string2, ''::character varying))::text) || ' '::text) || (COALESCE(custom_string3, ''::character varying))::text) || ' '::text) || COALESCE(custom_text1, ''::text)) || ' '::text) || COALESCE(custom_text2, ''::text)) || ' '::text) || COALESCE(custom_text3, ''::text)))", stored: true
     t.index ["inventory_id", "custom_id"], name: "index_items_on_inventory_id_and_custom_id", unique: true
     t.index ["inventory_id"], name: "index_items_on_inventory_id"
+    t.index ["searchable"], name: "index_items_on_searchable", using: :gin
     t.index ["user_id"], name: "index_items_on_user_id"
   end
 

@@ -11,6 +11,9 @@ class User < ApplicationRecord
 
   validates :name, presence: true
 
+  # The first admin can't be appointed from the UI, so the email from ADMIN_EMAIL becomes admin on sign up.
+  before_create { self.admin = true if ENV["ADMIN_EMAIL"].present? && email.casecmp?(ENV["ADMIN_EMAIL"]) }
+
   scope :matching, ->(query) {
     pattern = "#{sanitize_sql_like(query.to_s.downcase)}%"
     where("LOWER(name) LIKE :p OR LOWER(email) LIKE :p", p: pattern)

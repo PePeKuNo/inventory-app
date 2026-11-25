@@ -44,4 +44,11 @@ class InventoryTest < ActiveSupport::TestCase
     assert_equal 1000, stats["custom_int1_avg"]
     assert_equal "Dell", stats["custom_string1_mode"]
   end
+
+  test "full-text search by title prefix and by tag" do
+    @inventory.update!(tag_list: "office")
+    assert_includes Inventory.search_with_tags("lapt"), @inventory
+    assert_includes Inventory.search_with_tags("office"), @inventory
+    assert_empty Inventory.search_with_tags("tractor")
+  end
 end
